@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0c12">
+<title>AI Sales Machine — Profit Engine</title>
+<style>
+:root{--bg:#0b0c12;--panel:#141722;--panel2:#1b1f2d;--line:#2b3041;--text:#f4f5fb;--muted:#9ba2b5;--purple:#9b7cff;--blue:#65b8ff;--green:#54d99a;--yellow:#f3c66b;--red:#ff788d;--radius:17px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 78% -10%,#282044 0,transparent 30%),var(--bg);color:var(--text);font:14px Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}.side{background:#0d0f17;border-right:1px solid var(--line);padding:22px 15px;display:flex;flex-direction:column;gap:25px}.brand{display:flex;gap:11px;align-items:center;padding:0 8px}.logo{height:39px;width:39px;border-radius:13px;background:linear-gradient(135deg,var(--purple),#4c67dc);display:grid;place-items:center;font-size:19px;font-weight:900;box-shadow:0 8px 25px #8c6cff44}.brand b{display:block;letter-spacing:.2px}.brand small{font-size:9px;letter-spacing:1.8px;color:var(--muted)}.navlabel{font-size:10px;letter-spacing:1.7px;color:#747c91;padding:0 11px;margin-bottom:7px}.nav{display:grid;gap:4px}.nav button{border:0;background:transparent;color:#aeb4c5;text-align:left;padding:11px 12px;border-radius:10px;display:flex;gap:11px;align-items:center}.nav button:hover,.nav button.active{background:#242038;color:white}.nav button.active{box-shadow:inset 3px 0 var(--purple)}.nav i{width:20px;font-style:normal;text-align:center}.sidebox{margin-top:auto;background:linear-gradient(145deg,#211d38,#171a27);border:1px solid #39314f;padding:14px;border-radius:14px}.sidebox b{font-size:12px}.sidebox p{font-size:11px;color:var(--muted);line-height:1.5}.sidebox button{width:100%;border:0;border-radius:9px;background:#8065df;color:white;padding:9px;font-weight:700}
+main{padding:28px clamp(16px,3.5vw,44px);max-width:1600px;width:100%;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:25px}.eyebrow{font-size:10px;color:var(--purple);letter-spacing:1.8px;font-weight:800}.top h1{font-size:clamp(24px,3vw,33px);margin:5px 0}.top p{margin:0;color:var(--muted)}.topright{display:flex;align-items:center;gap:9px}.pill{border:1px solid #31533f;color:var(--green);background:#10251e;padding:8px 11px;border-radius:30px;font-size:11px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 13px;border-radius:10px;font-weight:650}.btn.primary{background:linear-gradient(135deg,#8d70ef,#6658c8);border:0;color:white}.btn.ghost{background:transparent}.btn.danger{color:var(--red)}.btn.small{padding:7px 9px;font-size:11px}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:16px}.card{background:linear-gradient(155deg,#171a26,#121520);border:1px solid var(--line);border-radius:var(--radius);padding:17px;min-width:0}.statlabel{font-size:11px;color:var(--muted)}.statvalue{font-size:26px;font-weight:800;margin:9px 0 4px;letter-spacing:-.7px}.statnote{font-size:11px;color:var(--muted)}.positive{color:var(--green)}.negative{color:var(--red)}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 0 12px}.sectionhead h2{font-size:17px;margin:0}.sectionhead p{font-size:11px;color:var(--muted);margin:4px 0 0}.two{grid-template-columns:1.15fr .85fr}.three{grid-template-columns:repeat(3,1fr)}.muted{color:var(--muted)}.tiny{font-size:11px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.stack{display:grid;gap:10px}.item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #272c3a}.item:last-child{border-bottom:0}.item b{font-size:13px}.item small{display:block;color:var(--muted);margin-top:4px;font-size:11px}.tag{display:inline-flex;align-items:center;padding:5px 8px;border-radius:30px;font-size:10px;font-weight:750;background:#28243b;color:#c6b9ff}.tag.green{background:#143326;color:var(--green)}.tag.yellow{background:#382f1b;color:var(--yellow)}.tag.red{background:#3b202a;color:var(--red)}.bar{height:7px;background:#292e3d;border-radius:9px;overflow:hidden;margin-top:8px}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:9px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:650px}.table th,.table td{text-align:left;padding:12px 10px;border-bottom:1px solid #292e3b;font-size:12px;vertical-align:middle}.table th{color:var(--muted);font-weight:600;font-size:10px;letter-spacing:.5px}.empty{text-align:center;padding:30px;color:var(--muted)}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:var(--muted)}.field input,.field select,.field textarea{width:100%;background:#0e111a;border:1px solid #303647;color:var(--text);padding:11px;border-radius:9px;outline:none}.field textarea{min-height:80px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--purple)}.actions{display:flex;gap:8px;flex-wrap:wrap}.notice{padding:13px 14px;border-radius:12px;border:1px solid #4b3d27;background:#282218;color:#e9d29a;font-size:12px;line-height:1.55}.notice.blue{border-color:#2c4260;background:#172235;color:#b9d9ff}.notice.green{border-color:#24533d;background:#13291f;color:#b4f1d1}.score{font-size:20px;font-weight:850}.score.high{color:var(--green)}.score.mid{color:var(--yellow)}.score.low{color:var(--red)}.hidden{display:none!important}.modalback{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:16px;z-index:10}.modal{width:min(650px,100%);max-height:90vh;overflow:auto;background:#151925;border:1px solid #34394b;border-radius:18px;padding:20px;box-shadow:0 20px 80px #0009}.modal h2{margin:0 0 15px}.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}.tabcontent{display:none}.tabcontent.active{display:block}.chartbars{display:flex;align-items:end;gap:10px;height:140px;padding:12px 4px 0}.chartbars div{flex:1;min-width:0;background:linear-gradient(180deg,#a58aff,#5d6bce);border-radius:6px 6px 0 0;position:relative}.chartbars small{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:9px}.chartlegend{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-top:24px}
+@media(max-width:950px){.app{grid-template-columns:1fr}.side{padding:12px;gap:12px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0 5px}.nav{display:flex;overflow:auto;padding-bottom:3px}.nav button{white-space:nowrap;padding:9px}.navlabel,.sidebox{display:none}main{padding-top:20px}.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:580px){.top{align-items:flex-start;flex-direction:column}.topright{width:100%;justify-content:space-between}.stats{gap:9px}.statvalue{font-size:21px}.three{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.card{padding:14px}}
+</style></head>
+<body>
+<div class="app">
+<aside class="side">
+ <div class="brand"><div class="logo">AI</div><div><b>AI SALES MACHINE</b><small>PROFIT ENGINE</small></div></div>
+ <div><div class="navlabel">OPERAÇÃO</div><nav class="nav">
+ <button class="active" data-tab="dashboard"><i>▦</i> Visão geral</button>
+ <button data-tab="opportunities"><i>◈</i> Radar de oportunidades</button>
+ <button data-tab="products"><i>▣</i> Produtos</button>
+ <button data-tab="affiliates"><i>⇄</i> Afiliações</button>
+ <button data-tab="campaigns"><i>✧</i> Campanhas</button>
+ <button data-tab="approvals"><i>✓</i> Central de aprovação</button>
+ </nav></div>
+ <div><div class="navlabel">RESULTADOS</div><nav class="nav">
+ <button data-tab="sales"><i>↗</i> Vendas</button><button data-tab="analytics"><i>▤</i> Análises e lucro</button><button data-tab="settings"><i>⚙</i> Configurações</button>
+ </nav></div>
+ <div class="sidebox"><b>Operação com aprovação</b><p>Nenhuma publicação, inscrição ou despesa é realizada sem sua autorização.</p><button onclick="go('approvals')">Ver aprovações</button></div>
+</aside>
+<main>
+<header class="top"><div><div class="eyebrow">CENTRAL DE CRESCIMENTO</div><h1 id="pageTitle">Visão geral</h1><p id="pageSub">Acompanhe oportunidades, vendas e lucro em um só lugar.</p></div><div class="topright"><span class="pill">● Modo seguro ativo</span><button class="btn primary" onclick="openProduct()">＋ Novo produto</button></div></header>
+
+<section id="dashboard" class="tabcontent active">
+ <div class="grid stats">
+  <div class="card"><div class="statlabel">Receita em vendas</div><div class="statvalue" id="kRevenue">R$ 0,00</div><div class="statnote">Vendas registradas e confirmadas</div></div>
+  <div class="card"><div class="statlabel">Comissões estimadas</div><div class="statvalue" id="kCommission">R$ 0,00</div><div class="statnote">Comissões de vendas confirmadas</div></div>
+  <div class="card"><div class="statlabel">Lucro líquido estimado</div><div class="statvalue positive" id="kProfit">R$ 0,00</div><div class="statnote">Após custos informados</div></div>
+  <div class="card"><div class="statlabel">Oportunidades em análise</div><div class="statvalue" id="kOpps">0</div><div class="statnote">Produtos no radar</div></div>
+ </div>
+ <div class="grid two">
+  <div class="card"><div class="row"><div><b>Prioridades do Profit Engine</b><div class="tiny muted">O que merece sua atenção agora</div></div><span class="tag">IA assistida</span></div><div id="priorityList" class="stack" style="margin-top:10px"></div></div>
+  <div class="card"><div class="row"><b>Funil da operação</b><span class="tiny muted">Dados cadastrados</span></div><div id="funnel" class="stack" style="margin-top:15px"></div></div>
+ </div>
+ <div class="sectionhead"><div><h2>Atividade recente</h2><p>Últimos registros feitos no aplicativo</p></div><button class="btn small" onclick="go('sales')">Ver vendas</button></div>
+ <div class="card" id="recent"></div>
+ <div class="notice blue" style="margin-top:14px">Este aplicativo funciona localmente no seu navegador. Dados demonstrativos são identificados como exemplos; cadastre suas próprias informações para acompanhar resultados reais.</div>
+</section>
+
+<section id="opportunities" class="tabcontent">
+ <div class="notice blue">O radar calcula uma pontuação indicativa com base nos dados que você informa. Para encontrar ofertas automaticamente na internet e validar demanda real, será necessário conectar fontes e APIs autorizadas.</div>
+ <div class="sectionhead"><div><h2>Radar de oportunidades</h2><p>Compare demanda, margem, concorrência e facilidade de divulgação.</p></div><button class="btn primary" onclick="openOpportunity()">＋ Adicionar oportunidade</button></div>
+ <div class="card tablewrap"><table class="table"><thead><tr><th>PRODUTO / NICHO</th><th>PREÇO</th><th>COMISSÃO</th><th>POTENCIAL</th><th>DECISÃO</th><th></th></tr></thead><tbody id="oppTable"></tbody></table></div>
+ <div class="sectionhead"><div><h2>Como o potencial é calculado</h2><p>Nota de 0 a 100 — ferramenta de triagem, não previsão garantida.</p></div></div>
+ <div class="grid three">
+  <div class="card"><b>Demanda — 30%</b><p class="tiny muted">Procura percebida pelo público e intenção de compra.</p></div><div class="card"><b>Margem — 30%</b><p class="tiny muted">Comissão em relação ao preço e aos custos estimados.</p></div><div class="card"><b>Execução — 40%</b><p class="tiny muted">Concorrência, facilidade de conteúdo e risco da oferta.</p></div>
+ </div>
+</section>
+
+<section id="products" class="tabcontent">
+ <div class="sectionhead"><div><h2>Catálogo de produtos</h2><p>Organize ofertas aprovadas e seus links de afiliado.</p></div><button class="btn primary" onclick="openProduct()">＋ Cadastrar produto</button></div>
+ <div class="card tablewrap"><table class="table"><thead><tr><th>PRODUTO</th><th>PREÇO</th><th>COMISSÃO</th><th>GANHO / VENDA</th><th>STATUS</th><th></th></tr></thead><tbody id="productTable"></tbody></table></div>
+</section>
+
+<section id="affiliates" class="tabcontent">
+ <div class="notice">O app prepara e acompanha afiliações. Ele não consegue criar contas, aceitar contratos ou contornar aprovação de plataformas. A conexão real depende de APIs, credenciais e permissões oficiais.</div>
+ <div class="sectionhead"><div><h2>Central de plataformas</h2><p>Registre sua situação e acompanhe o processo.</p></div><button class="btn primary" onclick="openAffiliate()">＋ Adicionar plataforma</button></div>
+ <div class="grid two" id="affiliateCards"></div>
+ <div class="sectionhead"><div><h2>Checklist de afiliação</h2><p>Prepare sua presença antes de solicitar aprovação.</p></div></div>
+ <div class="card stack" id="affiliateChecklist"></div>
+</section>
+
+<section id="campaigns" class="tabcontent">
+ <div class="sectionhead"><div><h2>Estúdio de campanhas</h2><p>Prepare textos, ofertas e planos de conteúdo para sua aprovação.</p></div><button class="btn primary" onclick="openCampaign()">＋ Nova campanha</button></div>
+ <div class="grid two">
+  <div class="card"><b>Gerador de conteúdo</b><p class="tiny muted">Cria rascunhos locais com base nas informações do produto. Não publica automaticamente.</p>
+   <div class="formgrid" style="margin-top:13px">
+    <div class="field full"><label>Produto</label><select id="copyProduct"></select></div>
+    <div class="field"><label>Canal</label><select id="copyChannel"><option>Instagram</option><option>TikTok</option><option>Facebook</option><option>WhatsApp</option><option>Email</option><option>Pinterest</option></select></div>
+    <div class="field"><label>Idioma</label><select id="copyLang"><option value="pt">Português</option><option value="en">English</option><option value="it">Italiano</option></select></div>
+    <div class="field full"><label>Objetivo / ângulo</label><input id="copyAngle" placeholder="Ex.: economizar tempo, resolver um problema..."></div>
+   </div><button class="btn primary" style="margin-top:12px" onclick="generateCopy()">Gerar rascunho</button>
+   <div class="field" style="margin-top:13px"><label>Texto gerado — revise antes de usar</label><textarea id="copyOutput" rows="7" placeholder="Seu rascunho aparecerá aqui..."></textarea></div>
+   <button class="btn small" onclick="copyText()">Copiar texto</button>
+  </div>
+  <div class="card"><b>Campanhas salvas</b><div class="tiny muted" style="margin:4px 0 10px">Aprovação necessária antes de qualquer publicação.</div><div id="campaignList"></div></div>
+ </div>
+</section>
+
+<section id="approvals" class="tabcontent">
+ <div class="notice blue">A central separa o que está pronto para sua decisão. Aprovar aqui registra sua autorização dentro do app; a publicação ou inscrição externa só ocorrerá quando a integração correspondente estiver implementada e conectada.</div>
+ <div class="sectionhead"><div><h2>Itens aguardando decisão</h2><p>Você mantém a palavra final sobre ações e gastos.</p></div></div><div class="card" id="approvalList"></div>
+ <div class="sectionhead"><div><h2>Histórico de decisões</h2><p>Registro local das aprovações e recusas.</p></div></div><div class="card" id="approvalHistory"></div>
+</section>
+
+<section id="sales" class="tabcontent">
+ <div class="sectionhead"><div><h2>Registro de vendas</h2><p>Registre vendas e acompanhe comissões confirmadas, pendentes ou canceladas.</p></div><button class="btn primary" onclick="openSale()">＋ Registrar venda</button></div>
+ <div class="card tablewrap"><table class="table"><thead><tr><th>DATA</th><th>PRODUTO</th><th>VALOR</th><th>COMISSÃO</th><th>STATUS</th><th></th></tr></thead><tbody id="salesTable"></tbody></table></div>
+</section>
+
+<section id="analytics" class="tabcontent">
+ <div class="grid stats">
+  <div class="card"><div class="statlabel">Investimento informado</div><div class="statvalue" id="aSpend">R$ 0,00</div></div>
+  <div class="card"><div class="statlabel">Comissão confirmada</div><div class="statvalue" id="aComm">R$ 0,00</div></div>
+  <div class="card"><div class="statlabel">Lucro estimado</div><div class="statvalue positive" id="aProfit">R$ 0,00</div></div>
+  <div class="card"><div class="statlabel">ROI estimado</div><div class="statvalue" id="aRoi">—</div></div>
+ </div>
+ <div class="grid two"><div class="card"><b>Comissões por produto</b><div id="productBars" class="stack" style="margin-top:14px"></div></div>
+ <div class="card"><b>Calculadora de campanha</b><p class="tiny muted">Simule antes de investir em anúncios. Valores são hipóteses, não promessa de resultado.</p>
+  <div class="formgrid">
+   <div class="field"><label>Orçamento de anúncio (R$)</label><input id="simSpend" type="number" min="0" value="100"></div>
+   <div class="field"><label>Custo por clique (R$)</label><input id="simCpc" type="number" min="0.01" step=".01" value="1"></div>
+   <div class="field"><label>Conversão estimada (%)</label><input id="simConv" type="number" min="0" max="100" step=".1" value="2"></div>
+   <div class="field"><label>Comissão por venda (R$)</label><input id="simComm" type="number" min="0" step=".01" value="40"></div>
+  </div><button class="btn primary" style="margin-top:12px" onclick="simulate()">Calcular cenário</button><div id="simResult" class="notice blue" style="margin-top:12px">Preencha os valores para simular.</div>
+ </div></div>
+ <div class="notice" style="margin-top:14px">Lucro líquido estimado = comissões confirmadas − custos informados. Impostos, taxas, estornos e custos não cadastrados podem alterar o resultado.</div>
+</section>
+
+<section id="settings" class="tabcontent">
+ <div class="grid two">
+  <div class="card"><h2 style="margin-top:0">Preferências da operação</h2><div class="formgrid">
+   <div class="field"><label>Moeda principal</label><select id="currency"><option value="BRL">Real (BRL)</option><option value="USD">Dólar (USD)</option><option value="EUR">Euro (EUR)</option></select></div>
+   <div class="field"><label>Mercado prioritário</label><select id="market"><option>Brasil</option><option>Brasil + Internacional</option><option>Internacional</option></select></div>
+   <div class="field full"><label>Seu limite mensal de anúncios (R$)</label><input id="budget" type="number" min="0" value="0"></div>
+  </div><button class="btn primary" style="margin-top:12px" onclick="saveSettings()">Salvar preferências</button></div>
+  <div class="card"><h2 style="margin-top:0">Segurança e dados</h2><p class="tiny muted">Seus dados ficam salvos neste navegador. Limpar dados do navegador pode apagá-los. Exporte um backup regularmente.</p><div class="stack"><button class="btn" onclick="exportData()">⇩ Exportar backup JSON</button><label class="btn" style="display:block;text-align:center">⇧ Importar backup JSON<input type="file" accept="application/json" id="importFile" hidden onchange="importData(event)"></label><button class="btn danger" onclick="resetData()">Restaurar dados de demonstração</button></div></div>
+ </div>
+ <div class="sectionhead"><div><h2>Integrações futuras</h2><p>Conexões necessárias para automação real.</p></div></div>
+ <div class="grid three"><div class="card"><b>Plataformas afiliadas</b><p class="tiny muted">APIs oficiais, autorização e tokens protegidos no servidor.</p><span class="tag yellow">Não conectado</span></div><div class="card"><b>IA generativa</b><p class="tiny muted">Backend seguro para geração avançada e análise de dados.</p><span class="tag yellow">Não conectado</span></div><div class="card"><b>Redes sociais</b><p class="tiny muted">Permissões de publicação e revisão por canal.</p><span class="tag yellow">Não conectado</span></div></div>
+</section>
+</main></div>
+<div id="modalRoot"></div>
+<script>
+const KEY='aism_full_v1';
+const seed={
+ products:[], opportunities:[
+  {id:1,name:'Curso de organização financeira (exemplo)',price:197,rate:50,demand:8,competition:5,ease:8,cost:0,market:'Brasil',status:'Analisar',notes:'Produto demonstrativo. Validar reputação, página e regras.'},
+  {id:2,name:'Acessório de organização para casa (exemplo)',price:89,rate:12,demand:7,competition:7,ease:9,cost:0,market:'Brasil',status:'Analisar',notes:'Produto demonstrativo. Validar fornecedor e comissão.'}
+ ], affiliates:[
+  {id:1,name:'Hotmart',status:'Não iniciado',url:'https://www.hotmart.com',note:'Verificar requisitos e produtos disponíveis.'},
+  {id:2,name:'Amazon Associados',status:'Não iniciado',url:'https://associados.amazon.com.br',note:'Verificar regras e critérios do programa.'},
+  {id:3,name:'Awin',status:'Não iniciado',url:'https://www.awin.com',note:'Verificar elegibilidade por país e anunciante.'},
+  {id:4,name:'impact.com',status:'Não iniciado',url:'https://impact.com',note:'Verificar aprovação e condições de cada marca.'}
+ ],campaigns:[],approvals:[],history:[],sales:[],settings:{currency:'BRL',market:'Brasil + Internacional',budget:0,costs:0}
+};
+let db=load();
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||structuredClone(seed)}catch(e){return structuredClone(seed)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function money(n){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:db.settings.currency||'BRL'}).format(Number(n)||0)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function id(){return Date.now()+Math.floor(Math.random()*999)}
+function score(o){let margin=o.price?Math.min(10,(o.price*o.rate/100)/(Math.max(1,o.cost||0)+o.price*.05)*2):0;let demand=Number(o.demand)||0,comp=10-(Number(o.competition)||0),ease=Number(o.ease)||0;return Math.round((demand*3+Math.min(10,margin)*3+comp*2+ease*2)*10)}
+function potential(s){return s>=75?['Forte','green']:s>=55?['Moderado','yellow']:['Baixo','red']}
+function go(tab){document.querySelectorAll('.tabcontent').forEach(x=>x.classList.toggle('active',x.id===tab));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));let names={dashboard:['Visão geral','Acompanhe oportunidades, vendas e lucro em um só lugar.'],opportunities:['Radar de oportunidades','Encontre ofertas que merecem validação antes de divulgar.'],products:['Produtos','Seu catálogo de ofertas e links.'],affiliates:['Afiliações','Organize plataformas e solicitações.'],campaigns:['Campanhas','Prepare conteúdo e ações para aprovação.'],approvals:['Central de aprovação','Você decide o que pode avançar.'],sales:['Vendas','Registre e acompanhe resultados.'],analytics:['Análises e lucro','Entenda custos, comissões e retorno.'],settings:['Configurações','Preferências, backup e conexões.']};document.getElementById('pageTitle').textContent=names[tab][0];document.getElementById('pageSub').textContent=names[tab][1];render()}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+function modal(title,body,submit){document.getElementById('modalRoot').innerHTML=`<div class="modalback" onclick="if(event.target===this)closeModal()"><div class="modal"><h2>${title}</h2>${body}<div class="modalfoot"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn primary" onclick="${submit}">Salvar</button></div></div></div>`}
+function closeModal(){document.getElementById('modalRoot').innerHTML=''}
+function openProduct(p=null){let x=p||{};modal(p?'Editar produto':'Cadastrar produto',`<div class="formgrid">
+<div class="field full"><label>Nome do produto</label><input id="fName" value="${esc(x.name||'')}" placeholder="Nome da oferta"></div>
+<div class="field"><label>Preço de venda (R$)</label><input id="fPrice" type="number" min="0" step=".01" value="${x.price||''}"></div>
+<div class="field"><label>Comissão (%)</label><input id="fRate" type="number" min="0" max="100" step=".1" value="${x.rate||''}"></div>
+<div class="field"><label>Custos por venda (R$)</label><input id="fCost" type="number" min="0" step=".01" value="${x.cost||0}"></div>
+<div class="field"><label>Mercado</label><select id="fMarket"><option>Brasil</option><option>Internacional</option><option>Ambos</option></select></div>
+<div class="field full"><label>Link de afiliado / oferta</label><input id="fLink" value="${esc(x.link||'')}" placeholder="https://..."></div>
+<div class="field full"><label>Descrição / público</label><textarea id="fDesc">${esc(x.desc||'')}</textarea></div></div>`,`saveProduct(${x.id||0})`)}
+function saveProduct(old){let p={id:old||id(),name:v('fName'),price:+v('fPrice'),rate:+v('fRate'),cost:+v('fCost'),market:v('fMarket'),link:v('fLink'),desc:v('fDesc')};if(!p.name||p.price<=0||p.rate<0){alert('Informe nome, preço e comissão válidos.');return}let i=db.products.findIndex(x=>x.id===old);if(i>=0)db.products[i]=p;else db.products.push(p);closeModal();save()}
+function openOpportunity(){modal('Adicionar oportunidade',`<div class="formgrid">
+<div class="field full"><label>Produto / nicho</label><input id="oName" placeholder="Ex.: curso de idiomas"></div><div class="field"><label>Preço (R$)</label><input id="oPrice" type="number" value="100"></div><div class="field"><label>Comissão (%)</label><input id="oRate" type="number" value="30"></div>
+<div class="field"><label>Demanda percebida (0–10)</label><input id="oDemand" type="number" min="0" max="10" value="7"></div><div class="field"><label>Concorrência (0–10)</label><input id="oComp" type="number" min="0" max="10" value="5"></div>
+<div class="field"><label>Facilidade de divulgação (0–10)</label><input id="oEase" type="number" min="0" max="10" value="7"></div><div class="field"><label>Custo estimado por venda (R$)</label><input id="oCost" type="number" value="0"></div><div class="field full"><label>Observações / fonte da pesquisa</label><textarea id="oNotes"></textarea></div></div>`,'saveOpportunity()')}
+function saveOpportunity(){let o={id:id(),name:v('oName'),price:+v('oPrice'),rate:+v('oRate'),demand:+v('oDemand'),competition:+v('oComp'),ease:+v('oEase'),cost:+v('oCost'),notes:v('oNotes'),market:'Brasil',status:'Analisar'};if(!o.name){alert('Informe o nome.');return}db.opportunities.push(o);closeModal();save()}
+function approveOpportunity(n){let o=db.opportunities.find(x=>x.id===n);if(!o)return;let prod={id:id(),name:o.name,price:o.price,rate:o.rate,cost:o.cost,market:o.market,link:'',desc:o.notes};db.products.push(prod);o.status='Aprovado para catálogo';db.approvals.push({id:id(),type:'Produto',name:o.name,detail:'Oportunidade aprovada para entrar no catálogo. Ainda falta validar a oferta e inserir o link afiliado.',status:'Pendente',created:new Date().toLocaleDateString('pt-BR')});save()}
+function openAffiliate(){modal('Adicionar plataforma',`<div class="formgrid"><div class="field"><label>Nome</label><input id="afName"></div><div class="field"><label>Site oficial</label><input id="afUrl" placeholder="https://..."></div><div class="field full"><label>Observações</label><textarea id="afNote"></textarea></div></div>`,'saveAffiliate()')}
+function saveAffiliate(){if(!v('afName'))return alert('Informe o nome.');db.affiliates.push({id:id(),name:v('afName'),url:v('afUrl'),note:v('afNote'),status:'Não iniciado'});closeModal();save()}
+function changeAffiliate(n,s){let a=db.affiliates.find(x=>x.id===n);if(a){a.status=s;db.approvals.push({id:id(),type:'Afiliação',name:a.name,detail:'Preparar ou revisar solicitação na plataforma externa.',status:'Pendente',created:new Date().toLocaleDateString('pt-BR')});save()}}
+function openCampaign(){modal('Nova campanha',`<div class="formgrid"><div class="field full"><label>Nome da campanha</label><input id="cName" placeholder="Ex.: campanha de lançamento"></div><div class="field"><label>Produto</label><select id="cProduct">${db.products.map(p=>`<option>${esc(p.name)}</option>`).join('')}</select></div><div class="field"><label>Canal</label><select id="cChannel"><option>Instagram</option><option>TikTok</option><option>Facebook</option><option>WhatsApp</option><option>Email</option></select></div><div class="field full"><label>Objetivo / plano</label><textarea id="cPlan"></textarea></div></div>`,'saveCampaign()')}
+function saveCampaign(){let c={id:id(),name:v('cName'),product:v('cProduct'),channel:v('cChannel'),plan:v('cPlan'),status:'Rascunho',created:new Date().toLocaleDateString('pt-BR')};if(!c.name)return alert('Informe o nome.');db.campaigns.push(c);db.approvals.push({id:id(),type:'Campanha',name:c.name,detail:`Rascunho para ${c.channel}. Revisar conteúdo, link, aviso de afiliado e regras do canal.`,status:'Pendente',created:c.created});closeModal();save()}
+function openSale(){modal('Registrar venda',`<div class="formgrid"><div class="field full"><label>Produto</label><select id="sProduct">${db.products.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}</select></div><div class="field"><label>Valor da venda (R$)</label><input id="sValue" type="number" step=".01"></div><div class="field"><label>Comissão (%)</label><input id="sRate" type="number" step=".1"></div><div class="field"><label>Status</label><select id="sStatus"><option>Confirmada</option><option>Pendente</option><option>Cancelada</option></select></div><div class="field"><label>Data</label><input id="sDate" type="date" value="${new Date().toISOString().slice(0,10)}"></div></div>`,'saveSale()')}
+function saveSale(){let p=db.products.find(x=>x.id==v('sProduct'));let s={id:id(),product:p?.name||'Produto',value:+v('sValue'),rate:+v('sRate'),status:v('sStatus'),date:v('sDate')};if(s.value<=0)return alert('Informe o valor da venda.');db.sales.push(s);closeModal();save()}
+function generateCopy(){let p=db.products.find(x=>x.id==v('copyProduct'));if(!p)return alert('Cadastre um produto primeiro.');let ch=v('copyChannel'),lang=v('copyLang'),angle=v('copyAngle')||'uma solução prática para o seu dia a dia',link=p.link||'[INSIRA SEU LINK DE AFILIADO]';let text=lang==='en'?`Looking for ${angle}? Take a look at ${p.name}. Check the details and decide if it fits your needs.\\n\\nLearn more: ${link}\\n\\nDisclosure: this post may contain an affiliate link.`:lang==='it'?`Cerchi ${angle}? Scopri ${p.name}. Consulta i dettagli e valuta se fa al caso tuo.\\n\\nScopri di più: ${link}\\n\\nNota: questo contenuto può contenere un link affiliato.`:`Está procurando ${angle}? Conheça ${p.name}. Confira os detalhes, compare as opções e veja se faz sentido para você.\\n\\nSaiba mais: ${link}\\n\\nAviso: este conteúdo pode conter link de afiliado. A recomendação deve ser transparente e baseada em informações verdadeiras.`;document.getElementById('copyOutput').value=`${ch.toUpperCase()}\\n\\n${text}`}
+function copyText(){let t=v('copyOutput');if(!t)return; navigator.clipboard?.writeText(t).then(()=>alert('Texto copiado!')).catch(()=>alert('Selecione e copie o texto.'))}
+function v(id){return document.getElementById(id)?.value||''}
+function render(){
+ let confirmed=db.sales.filter(s=>s.status==='Confirmada'),revenue=confirmed.reduce((a,s)=>a+s.value,0),comm=confirmed.reduce((a,s)=>a+s.value*s.rate/100,0),spend=+db.settings.costs||0,profit=comm-spend;
+ set('kRevenue',money(revenue));set('kCommission',money(comm));set('kProfit',money(profit));set('kOpps',db.opportunities.length);
+ set('aSpend',money(spend));set('aComm',money(comm));set('aProfit',money(profit));set('aRoi',spend?((profit/spend)*100).toFixed(1)+'%':'—');
+ let top=db.opportunities.slice().sort((a,b)=>score(b)-score(a)).slice(0,4);setHTML('priorityList',top.length?top.map(o=>{let s=score(o),[t,c]=potential(s);return `<div class="item"><div><b>${esc(o.name)}</b><small>Comissão potencial: ${money(o.price*o.rate/100)} / venda</small></div><div style="text-align:right"><span class="score ${s>=75?'high':s>=55?'mid':'low'}">${s}</span><br><span class="tag ${c}">${t}</span></div></div>`}).join(''):'<div class="empty">Adicione oportunidades no radar para começar.</div>');
+ let counts=[['Produtos',db.products.length],['Campanhas',db.campaigns.length],['Vendas registradas',db.sales.length],['Aprovações pendentes',db.approvals.filter(a=>a.status==='Pendente').length]];setHTML('funnel',counts.map((x,i)=>`<div><div class="row"><span class="tiny muted">${x[0]}</span><b>${x[1]}</b></div><div class="bar"><span style="width:${Math.min(100,x[1]*15)}%"></span></div></div>`).join(''));
+ let recent=[...db.sales].slice(-4).reverse();setHTML('recent',recent.length?recent.map(s=>`<div class="item"><div><b>${esc(s.product)}</b><small>${esc(s.date)} · ${s.status}</small></div><b>${money(s.value*s.rate/100)}</b></div>`).join(''):'<div class="empty">Ainda não há vendas registradas.</div>');
+ setHTML('oppTable',db.opportunities.map(o=>{let s=score(o),[t,c]=potential(s);return `<tr><td><b>${esc(o.name)}</b><div class="tiny muted">${esc(o.notes||'')}</div></td><td>${money(o.price)}</td><td>${o.rate}%<div class="tiny muted">${money(o.price*o.rate/100)} por venda</div></td><td><span class="score ${s>=75?'high':s>=55?'mid':'low'}">${s}/100</span><div class="bar"><span style="width:${s}%"></span></div></td><td><span class="tag ${c}">${esc(o.status||t)}</span></td><td><div class="actions"><button class="btn small" onclick="approveOpportunity(${o.id})">Adicionar ao catálogo</button><button class="btn small danger" onclick="del('opportunities',${o.id})">×</button></div></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">Nenhuma oportunidade cadastrada.</td></tr>');
+ setHTML('productTable',db.products.map(p=>`<tr><td><b>${esc(p.name)}</b><div class="tiny muted">${esc(p.market||'')}</div></td><td>${money(p.price)}</td><td>${p.rate}%</td><td class="positive">${money(p.price*p.rate/100-p.cost)}</td><td><span class="tag green">No catálogo</span></td><td><div class="actions"><button class="btn small" onclick="openProduct(db.products.find(x=>x.id===${p.id}))">Editar</button><button class="btn small danger" onclick="del('products',${p.id})">×</button></div></td></tr>`).join('')||'<tr><td colspan="6" class="empty">Cadastre seu primeiro produto.</td></tr>');
+ setHTML('affiliateCards',db.affiliates.map(a=>`<div class="card"><div class="row"><b>${esc(a.name)}</b><span class="tag ${a.status==='Aprovado'?'green':a.status==='Reprovado'?'red':'yellow'}">${esc(a.status)}</span></div><p class="tiny muted">${esc(a.note||'')}</p><div class="actions"><a class="btn small" href="${esc(a.url||'#')}" target="_blank" rel="noopener">Site oficial ↗</a><select class="btn small" onchange="changeAffiliate(${a.id},this.value)"><option ${a.status==='Não iniciado'?'selected':''}>Não iniciado</option><option ${a.status==='Preparar cadastro'?'selected':''}>Preparar cadastro</option><option ${a.status==='Solicitado'?'selected':''}>Solicitado</option><option ${a.status==='Aprovado'?'selected':''}>Aprovado</option><option ${a.status==='Reprovado'?'selected':''}>Reprovado</option></select></div></div>`).join(''));
+ setHTML('affiliateChecklist',['Definir nicho e público-alvo','Criar perfil de divulgação e conteúdo original','Ler termos, regras de tráfego e critérios de aprovação','Preparar dados cadastrais e fiscais solicitados pela plataforma','Identificar e sinalizar claramente links de afiliado'].map(x=>`<div class="item"><span>${x}</span><span class="tag yellow">Checklist</span></div>`).join(''));
+ setHTML('campaignList',db.campaigns.map(c=>`<div class="item"><div><b>${esc(c.name)}</b><small>${esc(c.product)} · ${esc(c.channel)} · ${c.created}</small></div><span class="tag yellow">${esc(c.status)}</span></div>`).join('')||'<div class="empty">Nenhuma campanha salva.</div>');
+ let pending=db.approvals.filter(a=>a.status==='Pendente');setHTML('approvalList',pending.map(a=>`<div class="item"><div><b>${esc(a.name)} <span class="tag">${esc(a.type)}</span></b><small>${esc(a.detail)}</small></div><div class="actions"><button class="btn small primary" onclick="decide(${a.id},'Aprovado')">Aprovar</button><button class="btn small danger" onclick="decide(${a.id},'Recusado')">Recusar</button></div></div>`).join('')||'<div class="empty">Tudo em dia. Não há itens aguardando aprovação.</div>');
+ setHTML('approvalHistory',db.history.slice(-10).reverse().map(a=>`<div class="item"><div><b>${esc(a.name)}</b><small>${esc(a.type)} · ${esc(a.date)}</small></div><span class="tag ${a.status==='Aprovado'?'green':'red'}">${esc(a.status)}</span></div>`).join('')||'<div class="empty">Nenhuma decisão registrada.</div>');
+ setHTML('salesTable',db.sales.map(s=>`<tr><td>${esc(s.date)}</td><td>${esc(s.product)}</td><td>${money(s.value)}</td><td>${money(s.value*s.rate/100)}</td><td><span class="tag ${s.status==='Confirmada'?'green':s.status==='Cancelada'?'red':'yellow'}">${esc(s.status)}</span></td><td><button class="btn small danger" onclick="del('sales',${s.id})">Excluir</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">Nenhuma venda registrada.</td></tr>');
+ let max=Math.max(1,...db.products.map(p=>db.sales.filter(s=>s.product===p.name&&s.status==='Confirmada').reduce((a,s)=>a+s.value*s.rate/100,0)));setHTML('productBars',db.products.map(p=>{let val=db.sales.filter(s=>s.product===p.name&&s.status==='Confirmada').reduce((a,s)=>a+s.value*s.rate/100,0);return `<div><div class="row"><span class="tiny">${esc(p.name)}</span><b class="tiny">${money(val)}</b></div><div class="bar"><span style="width:${val/max*100}%"></span></div></div>`}).join('')||'<div class="empty">Adicione produtos e registre vendas para ver o desempenho.</div>');
+ let cp=document.getElementById('copyProduct');if(cp){let old=cp.value;cp.innerHTML=db.products.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');if(db.products.some(p=>String(p.id)===old))cp.value=old}
+ document.getElementById('currency').value=db.settings.currency||'BRL';document.getElementById('market').value=db.settings.market||'Brasil + Internacional';document.getElementById('budget').value=db.settings.budget||0;
+}
+function set(id,t){document.getElementById(id).textContent=t}function setHTML(id,t){document.getElementById(id).innerHTML=t}
+function del(k,n){if(confirm('Excluir este registro?')){db[k]=db[k].filter(x=>x.id!==n);save()}}
+function decide(n,s){let i=db.approvals.findIndex(x=>x.id===n);if(i<0)return;let a=db.approvals.splice(i,1)[0];a.status=s;a.date=new Date().toLocaleString('pt-BR');db.history.push(a);save()}
+function simulate(){let spend=+v('simSpend'),cpc=+v('simCpc'),conv=+v('simConv')/100,comm=+v('simComm');if(cpc<=0)return alert('Custo por clique deve ser maior que zero.');let clicks=spend/cpc,sales=clicks*conv,rev=sales*comm,profit=rev-spend,be=comm?cpc/comm*100:0;setHTML('simResult',`<b>Cenário matemático estimado</b><br>Cliques: ${clicks.toFixed(0)} · Vendas: ${sales.toFixed(2)}<br>Comissões: ${money(rev)}<br>Resultado após anúncio: <b class="${profit>=0?'positive':'negative'}">${money(profit)}</b><br>Conversão de equilíbrio aproximada: ${be.toFixed(2)}%<br><small>Não inclui taxas, estornos, impostos ou variação real do leilão de anúncios.</small>`)}
+function saveSettings(){db.settings.currency=v('currency');db.settings.market=v('market');db.settings.budget=+v('budget');save();alert('Preferências salvas.')}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ai-sales-machine-backup.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.products||!d.sales)throw 0;db=d;save();alert('Backup importado.')}catch(err){alert('Arquivo inválido.')}};r.readAsText(f)}
+function resetData(){if(confirm('Isso apaga os dados locais e restaura a estrutura inicial. Continuar?')){db=structuredClone(seed);save()}}
+render();
+</script></body></html>
