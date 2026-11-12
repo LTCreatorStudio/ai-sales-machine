@@ -19,7 +19,7 @@ main{padding:28px clamp(16px,3.5vw,44px);max-width:1600px;width:100%;margin:auto
 .auth-card input{width:100%;padding:12px;border:1px solid #34394b;border-radius:9px;background:#0d0f17;color:white}
 .auth-actions{display:flex;gap:9px;margin-top:18px}.auth-actions button{flex:1}
 .auth-error{color:#ff788d!important;min-height:18px}
-</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
+</style><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" onerror="window.__supabaseLoadError=true"></script></head>
 <body>
 <div class="app">
 <aside class="side">
@@ -173,27 +173,44 @@ function save(){
   setSyncStatus('● Salvando...');
   clearTimeout(savingTimer);
   savingTimer=setTimeout(async()=>{
-   const {error}=await supabase.from('app_state').upsert({user_id:currentUser.id,data:db,updated_at:new Date().toISOString()},{onConflict:'user_id'});
-   setSyncStatus(error?'● Erro ao sincronizar':'● Sincronizado');
-   if(error)console.error('Supabase sync:',error.message);
+   try{
+    const {error}=await supabase.from('app_state').upsert({user_id:currentUser.id,data:db,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+    if(error) throw error;
+    setSyncStatus('● Sincronizado');
+   }catch(error){
+    setSyncStatus('● Falha ao sincronizar');
+    console.error('Supabase sync:',error.message||error);
+    const box=document.getElementById('authError');
+    if(box)box.textContent='Seus dados estão neste navegador, mas a nuvem não confirmou o salvamento: '+(error.message||'erro de conexão');
+   }
   },500);
  }
 }
 async function loadCloudData(user){
  currentUser=user;ready=false;
- const {data,error}=await supabase.from('app_state').select('data').eq('user_id',user.id).maybeSingle();
- if(error){document.getElementById('authError').textContent='Erro ao carregar dados: '+error.message;return}
- if(data?.data){db={...structuredClone(seed),...data.data};localStorage.setItem(KEY,JSON.stringify(db))}
- else {
-  // Migra automaticamente os dados locais existentes para a conta nova.
-  db=load();
-  const {error:upErr}=await supabase.from('app_state').upsert({user_id:user.id,data:db,updated_at:new Date().toISOString()},{onConflict:'user_id'});
-  if(upErr){document.getElementById('authError').textContent='Não foi possível salvar os dados iniciais: '+upErr.message;return}
+ const box=document.getElementById('authError');
+ try{
+  const {data,error}=await supabase.from('app_state').select('data').eq('user_id',user.id).maybeSingle();
+  if(error) throw error;
+  if(data?.data){
+   db={...structuredClone(seed),...data.data};
+  }else{
+   // New account: start with a clean sample workspace; never import another browser user's local data.
+   db=structuredClone(seed);
+   const {error:upErr}=await supabase.from('app_state').upsert({user_id:user.id,data:db,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+   if(upErr) throw upErr;
+  }
+  localStorage.setItem(KEY,JSON.stringify(db));
+  ready=true;render();
+  document.getElementById('authScreen').style.display='none';
+  document.getElementById('logoutBtn').style.display='inline-block';
+  setSyncStatus('● Sincronizado');
+  if(box)box.textContent='';
+ }catch(error){
+  ready=false;
+  if(box)box.textContent='Não foi possível carregar/salvar seus dados na nuvem: '+(error.message||'erro inesperado');
+  setSyncStatus('● Sem sincronização');
  }
- ready=true;render();
- document.getElementById('authScreen').style.display='none';
- document.getElementById('logoutBtn').style.display='inline-block';
- setSyncStatus('● Sincronizado');
 }
 async function signIn(){
  const box=document.getElementById('authError');
@@ -225,14 +242,29 @@ async function signOut(){await supabase.auth.signOut();currentUser=null;ready=fa
 async function initializeAuth(){
  const box=document.getElementById('authError');
  try{
-  if(!window.supabase||!window.supabase.createClient) throw new Error('A biblioteca de conexão não carregou. Verifique sua internet e atualize a página.');
-  supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-  const {data:{session},error}=await supabase.auth.getSession();
+  if(!window.supabase||!window.supabase.createClient){
+   const reason=window.__supabaseLoadError?'O CDN da biblioteca não respondeu.':'A biblioteca ainda não terminou de carregar.';
+   throw new Error(reason+' Confira a conexão e atualize a página com Ctrl+Shift+R.');
+  }
+  supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{
+   auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  });
+  const {data,error}=await supabase.auth.getSession();
   if(error) throw error;
-  if(session) await loadCloudData(session.user);
-  else document.getElementById('authScreen').style.display='grid';
-  supabase.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){currentUser=null;ready=false;document.getElementById('authScreen').style.display='grid'}});
- }catch(e){box.textContent='Falha na conexão: '+(e.message||'erro inesperado');}
+  if(data.session) await loadCloudData(data.session.user);
+  else {document.getElementById('authScreen').style.display='grid';setSyncStatus('● Aguardando acesso');}
+  supabase.auth.onAuthStateChange((event,session)=>{
+   if(event==='SIGNED_OUT'){
+    currentUser=null;ready=false;
+    document.getElementById('authScreen').style.display='grid';
+    document.getElementById('logoutBtn').style.display='none';
+    setSyncStatus('● Desconectado');
+   }
+  });
+ }catch(e){
+  box.textContent='Falha na conexão: '+(e.message||'erro inesperado');
+  setSyncStatus('● Erro de conexão');
+ }
 }
 function money(n){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:db.settings.currency||'BRL'}).format(Number(n)||0)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
