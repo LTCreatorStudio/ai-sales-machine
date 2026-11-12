@@ -145,7 +145,7 @@ main{padding:28px clamp(16px,3.5vw,44px);max-width:1600px;width:100%;margin:auto
  <p>Entre ou crie sua conta para salvar seus dados na nuvem e acessar de outros dispositivos.</p>
  <label for="authEmail">E-mail</label><input id="authEmail" type="email" autocomplete="email" placeholder="seuemail@exemplo.com">
  <label for="authPassword">Senha (mínimo 6 caracteres)</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="Sua senha">
- <div class="auth-actions"><button class="btn primary" id="signInBtn" type="button" onclick="signIn()">Entrar</button><button class="btn" id="signUpBtn" type="button" onclick="signUp()">Criar conta</button></div>
+ <div class="auth-actions"><button class="btn primary" id="signInBtn" type="button">Entrar</button><button class="btn" id="signUpBtn" type="button">Criar conta</button></div>
  <p id="authError" class="auth-error"></p><p>Se criar uma conta, confirme o e-mail caso o Supabase solicite.</p>
 </div></div>
 <script>
@@ -330,6 +330,18 @@ function resetData(){if(confirm('Isso apaga os dados locais e restaura a estrutu
 // Expose login actions explicitly for the buttons in the access screen.
 window.signIn = signIn;
 window.signUp = signUp;
+document.getElementById('signInBtn')?.addEventListener('click', function(event){
+ event.preventDefault();
+ const box=document.getElementById('authError');
+ box.textContent='Botão acionado. Verificando acesso...';
+ signIn();
+});
+document.getElementById('signUpBtn')?.addEventListener('click', function(event){
+ event.preventDefault();
+ const box=document.getElementById('authError');
+ box.textContent='Iniciando criação da conta...';
+ signUp();
+});
 
 // Surface unexpected browser errors in the login screen instead of leaving it stuck.
 window.addEventListener('error', function(event){
