@@ -163,7 +163,7 @@ const seed={
 };
 const SUPABASE_URL='https://rarafyimijusabeswxqz.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_66J1bD9g2tYwqJJpKJoayw_Kdd6jFJg';
-const supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+let supabase=null;
 let db=load(), currentUser=null, savingTimer=null, ready=false;
 function load(){try{return JSON.parse(localStorage.getItem(KEY))||structuredClone(seed)}catch(e){return structuredClone(seed)}}
 function setSyncStatus(t){const el=document.getElementById('syncStatus');if(el)el.textContent=t}
@@ -196,27 +196,43 @@ async function loadCloudData(user){
  setSyncStatus('● Sincronizado');
 }
 async function signIn(){
- const email=v('authEmail').trim(),password=v('authPassword');
- document.getElementById('authError').textContent='Entrando...';
- const {data,error}=await supabase.auth.signInWithPassword({email,password});
- if(error){document.getElementById('authError').textContent=error.message;return}
- await loadCloudData(data.user);
+ const box=document.getElementById('authError');
+ try{
+  if(!supabase) throw new Error('A conexão de autenticação não carregou. Atualize com Ctrl+Shift+R e tente novamente.');
+  const email=v('authEmail').trim(),password=v('authPassword');
+  if(!email||!password) throw new Error('Preencha e-mail e senha.');
+  box.textContent='Conectando...';
+  const {data,error}=await supabase.auth.signInWithPassword({email,password});
+  if(error) throw error;
+  await loadCloudData(data.user);
+ }catch(e){box.textContent='Não foi possível entrar: '+(e.message||'erro inesperado');}
 }
 async function signUp(){
- const email=v('authEmail').trim(),password=v('authPassword');
- if(password.length<6){document.getElementById('authError').textContent='A senha precisa ter pelo menos 6 caracteres.';return}
- document.getElementById('authError').textContent='Criando conta...';
- const {data,error}=await supabase.auth.signUp({email,password});
- if(error){document.getElementById('authError').textContent=error.message;return}
- if(data.session) await loadCloudData(data.user);
- else document.getElementById('authError').textContent='Conta criada! Confira seu e-mail para confirmar e depois volte para entrar.';
+ const box=document.getElementById('authError');
+ try{
+  if(!supabase) throw new Error('A conexão de autenticação não carregou. Atualize a página e tente novamente.');
+  const email=v('authEmail').trim(),password=v('authPassword');
+  if(!email) throw new Error('Informe seu e-mail.');
+  if(password.length<6) throw new Error('A senha precisa ter pelo menos 6 caracteres.');
+  box.textContent='Criando conta...';
+  const {data,error}=await supabase.auth.signUp({email,password});
+  if(error) throw error;
+  if(data.session) await loadCloudData(data.user);
+  else box.textContent='Conta criada! Confira seu e-mail para confirmar e depois volte para entrar.';
+ }catch(e){box.textContent='Não foi possível criar a conta: '+(e.message||'erro inesperado');}
 }
 async function signOut(){await supabase.auth.signOut();currentUser=null;ready=false;document.getElementById('authScreen').style.display='grid';document.getElementById('logoutBtn').style.display='none';setSyncStatus('● Desconectado')}
 async function initializeAuth(){
- const {data:{session}}=await supabase.auth.getSession();
- if(session) await loadCloudData(session.user);
- else document.getElementById('authScreen').style.display='grid';
- supabase.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){currentUser=null;ready=false;document.getElementById('authScreen').style.display='grid'}});
+ const box=document.getElementById('authError');
+ try{
+  if(!window.supabase||!window.supabase.createClient) throw new Error('A biblioteca de conexão não carregou. Verifique sua internet e atualize a página.');
+  supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  const {data:{session},error}=await supabase.auth.getSession();
+  if(error) throw error;
+  if(session) await loadCloudData(session.user);
+  else document.getElementById('authScreen').style.display='grid';
+  supabase.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){currentUser=null;ready=false;document.getElementById('authScreen').style.display='grid'}});
+ }catch(e){box.textContent='Falha na conexão: '+(e.message||'erro inesperado');}
 }
 function money(n){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:db.settings.currency||'BRL'}).format(Number(n)||0)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
