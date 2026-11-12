@@ -327,6 +327,17 @@ function saveSettings(){db.settings.currency=v('currency');db.settings.market=v(
 function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ai-sales-machine-backup.json';a.click();URL.revokeObjectURL(a.href)}
 function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.products||!d.sales)throw 0;db=d;save();alert('Backup importado.')}catch(err){alert('Arquivo inválido.')}};r.readAsText(f)}
 function resetData(){if(confirm('Isso apaga os dados locais e restaura a estrutura inicial. Continuar?')){db=structuredClone(seed);save()}}
+// Expose login actions explicitly for the buttons in the access screen.
+window.signIn = signIn;
+window.signUp = signUp;
+
+// Surface unexpected browser errors in the login screen instead of leaving it stuck.
+window.addEventListener('error', function(event){
+ const box=document.getElementById('authError');
+ if(box && !box.textContent){
+  box.textContent='Erro ao iniciar o aplicativo: '+(event.message||'falha de JavaScript');
+ }
+});
 render();
 initializeAuth();
 </script></body></html>
