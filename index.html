@@ -145,7 +145,7 @@ main{padding:28px clamp(16px,3.5vw,44px);max-width:1600px;width:100%;margin:auto
  <p>Entre ou crie sua conta para salvar seus dados na nuvem e acessar de outros dispositivos.</p>
  <label for="authEmail">E-mail</label><input id="authEmail" type="email" autocomplete="email" placeholder="seuemail@exemplo.com">
  <label for="authPassword">Senha (mínimo 6 caracteres)</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="Sua senha">
- <div class="auth-actions"><button class="btn primary" id="signInBtn" type="button">Entrar</button><button class="btn" id="signUpBtn" type="button">Criar conta</button></div>
+ <div class="auth-actions"><button class="btn primary" id="signInBtn" type="button" onclick="signIn()">Entrar</button><button class="btn" id="signUpBtn" type="button" onclick="signUp()">Criar conta</button></div>
  <p id="authError" class="auth-error"></p><p>Se criar uma conta, confirme o e-mail caso o Supabase solicite.</p>
 </div></div>
 <script>
@@ -328,7 +328,5 @@ function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'appli
 function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.products||!d.sales)throw 0;db=d;save();alert('Backup importado.')}catch(err){alert('Arquivo inválido.')}};r.readAsText(f)}
 function resetData(){if(confirm('Isso apaga os dados locais e restaura a estrutura inicial. Continuar?')){db=structuredClone(seed);save()}}
 render();
-document.getElementById('signInBtn').addEventListener('click',signIn);
-document.getElementById('signUpBtn').addEventListener('click',signUp);
 initializeAuth();
 </script></body></html>
